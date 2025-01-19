@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin của Nhật Đăng</title>
+    <style>
+        /* Basic styling for the body */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        /* Container styling */
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        /* Header styling */
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        /* Content styling */
+        .content {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+        }
+        /* Footer styling */
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        /* Google Sign-In button styling */
+        .g-signin2 {
+            margin: 20px 0;
+        }
+        /* Content sections styling */
+        #admin-content, #member-content, #guest-content {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+        #admin-content h2, #member-content h2, #guest-content h2 {
+            color: #333;
+        }
+    </style>
+    <meta name="google-signin-client_id" content="AIzaSyA7orwCBOTi7-QrZHlsgjtGlyZUBnShoO4.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '3483342908627333',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v10.0'
+            });
+            FB.AppEvents.logPageView();   
+        };
+
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        }
+
+        function statusChangeCallback(response) {
+            if (response.status === 'connected') {
+                FB.api('/me', {fields: 'name,email'}, function(response) {
+                    var email = response.email;
+                    if (email.endsWith("@admin.com")) {
+                        document.getElementById("admin-content").style.display = "block";
+                        document.getElementById("member-content").style.display = "none";
+                        document.getElementById("guest-content").style.display = "none";
+                    } else if (email.endsWith("@example.com")) {
+                        document.getElementById("member-content").style.display = "block";
+                        document.getElementById("guest-content").style.display = "none";
+                    } else {
+                        document.getElementById("guest-content").style.display = "block";
+                        alert("You are viewing the site as a guest.");
+                    }
+                });
+            } else {
+                document.getElementById("guest-content").style.display = "block";
+                alert("Please log in to view more content.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Header section -->
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Thông tin của Nhật Đăng</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Main content section -->
+    <div class="container">
+        <div class="content">
+            <h2>Giới thiệu</h2>
+            <p>Xin chào! Tôi là Nhật Đăng. Đây là trang web lưu trữ thông tin cá nhân của tôi.</p>
+            <h2>Thông tin cá nhân</h2>
+            <ul>
+                <li>Họ và tên: Nhật Đăng</li>
+                <li>Ngày sinh: 05/01/2010</li>
+                <li>Địa chỉ: Xóm 4, An Hòa, Lộc An, Bảo Lâm, Lâm ĐồngĐồng, Việt Nam</li>
+                <li>Email: chaunhatdangne5110@gmail.com</li>
+                <li>Số điện thoại: 0379065349</li>
+                <li>Số Căn Cước Công Dân: 083210001087</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Footer section -->
+    <footer>
+        <p>Nhật Đăng &copy; 2025</p>
+    </footer>
+    <!-- Google Sign-In callback function -->
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            var email = profile.getEmail();
+            if (email.endsWith("@admin.com")) {
+                document.getElementById("admin-content").style.display = "block";
+                document.getElementById("member-content").style.display = "none";
+                document.getElementById("guest-content").style.display = "none";
+            } else if (email.endsWith("@example.com")) {
+                document.getElementById("member-content").style.display = "block";
+                document.getElementById("guest-content").style.display = "none";
+            } else {
+                document.getElementById("guest-content").style.display = "block";
+                alert("You are viewing the site as a guest.");
+            }
+        }
+    </script>
+
+    <!-- Google Sign-In button -->
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+    <!-- Facebook Login button -->
+    <fb:login-button 
+        scope="public_profile,email" 
+        onlogin="checkLoginState();">
+    </fb:login-button>
+
+    <!-- Admin content section -->
+    <div id="admin-content" style="display:none;">
+        <h2>Admin Content</h2>
+        <p>Here you can add files to the website.</p>
+        <!-- Add your file upload form here -->
+    </div>
+
+    <!-- Member content section -->
+    <div id="member-content" style="display:none;">
+        <h2>Member Content</h2>
+        <p>You can upload files here, but they need to be approved by the admin.</p>
+        <!-- Add your file upload form here -->
+    </div>
+
+    <!-- Guest content section -->
+    <div id="guest-content">
+        <h2>Guest Content</h2>
+        <p>Welcome to the guest view of the website. Please sign in to access more features.</p>
+    </div>
+</body>
+</html>
